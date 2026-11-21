@@ -66,7 +66,7 @@ async fn run_compressed_streamable_http(
         StreamableHttpServerConfig::default().with_sse_keep_alive(None),
     );
     let router = axum::Router::new().nest_service("/mcp", service);
-    let listener = tokio::net::TcpListener::bind(SocketAddr::from((Ipv4Addr::LOCALHOST, cli.port)))
+    let listener = tokio::net::TcpListener::bind(SocketAddr::from((Ipv4Addr::UNSPECIFIED, cli.port)))
         .await
         .map_err(|error| error.to_string())?;
     let addr = listener.local_addr().map_err(|error| error.to_string())?;

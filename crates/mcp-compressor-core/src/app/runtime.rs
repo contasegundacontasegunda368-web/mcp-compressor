@@ -63,7 +63,9 @@ async fn run_compressed_streamable_http(
             move || Ok(FrontendServer::from_arc(server.clone()))
         },
         Arc::new(LocalSessionManager::default()),
-        StreamableHttpServerConfig::default().with_sse_keep_alive(None),
+        StreamableHttpServerConfig::default()
+    .with_allowed_hosts(["mcp-compressor-production.up.railway.app"])
+    .with_sse_keep_alive(None),
     );
     let router = axum::Router::new().nest_service("/mcp", service);
     let listener = tokio::net::TcpListener::bind(SocketAddr::from((Ipv4Addr::UNSPECIFIED, cli.port)))
